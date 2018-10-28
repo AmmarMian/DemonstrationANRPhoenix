@@ -1,8 +1,8 @@
 %% Description
-% A function to generate multivariate complex normal vectos with both
+% A function to generate multivariate complex normal vectors with both
 % covariance and pseudo-covariance parameters as described in:
 % Picinbono, B. (1996). Second-order complex random vectors and normal
-% distributions. IEEE Transactions on Signal Processing, 44(10), 2637–2640.
+% distributions. IEEE Transactions on Signal Processing, 44(10), 2637â€“2640.
 %% Specifications
 % Other m-files required: None
 % MAT-files required: None
@@ -26,7 +26,7 @@
 %% ------------- BEGIN CODE --------------
 function [ Z ] = Multivariate_ComplexNormal_Samples( p, N, mu, Gamma, C )
 %Multivariate_ComplexNormal_Samples: 
-% A function to generate multivariate complex normal vectos with both
+% A function to generate multivariate complex normal vectors with both
 % covariance and pseudo-covariance parameters as described in:
 % Picinbono, B. (1996). Second-order complex random vectors and normal
 % distributions. IEEE Transactions on Signal Processing, 44(10), 2637-2640.
