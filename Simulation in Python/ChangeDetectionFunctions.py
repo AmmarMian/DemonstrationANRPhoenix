@@ -66,12 +66,14 @@ def covariance_equality_t1_gaussian_statistic(X, *args):
             * the t1 statistic given the observations in input"""
 
     (N, K, M) = X.shape
+
     Sigma_10 = SCM(X.reshape((N, K*M)))
     iSigma_10 = np.linalg.inv(Sigma_10)
     t1 = 0
     for t in range(0, M):
         Sigma_m1 = SCM(X[:, :, t])
-        t1 = t1 + np.trace( (iSigma_10 @ Sigma_m1)**2 )/M;
+        S = (iSigma_10 @ Sigma_m1)
+        t1 = t1 + np.trace( S @ S )/M;
     return np.real(t1)
 
 
@@ -94,12 +96,14 @@ def covariance_equality_Wald_gaussian_statistic(X, *args):
     L = 0;
     O = 0;
     Q = 0;
-    Sigma_11 = SCM(X[:, :, 1])
+    Sigma_11 = SCM(X[:, :, 0])
     for m in range(0,M):
         Sigma_m1 = SCM(X[:, :, m])
         iSigma_m1 = np.linalg.inv(Sigma_m1)
-        L = L + K*np.trace((np.eye(N) - Sigma_11@iSigma_m1)**2)
-        Q = Q + K*(iSigma_m1 - iSigma_m1@Sigma_11@iSigma_m1)
+        if m != 0:
+            S = np.eye(N) - Sigma_11@iSigma_m1
+            L = L + K*np.trace(S@S)
+            Q = Q + K*(iSigma_m1 - iSigma_m1@Sigma_11@iSigma_m1)
         O = O + K*np.kron(iSigma_m1.T, iSigma_m1)
     
     return np.real(L - vec(Q).conj().T @ (np.linalg.inv(O)@vec(Q)))
@@ -108,7 +112,7 @@ def covariance_equality_Wald_gaussian_statistic(X, *args):
 ##############################################################################
 # Robust Statistics
 ##############################################################################
-def scale_and_shape_equality_robust_statistic(X, tol=0.0001, iterMax=20, *args):
+def scale_and_shape_equality_robust_statistic(X, args):
     """ GLRT test for testing a change in the scale or/and shape in 
         a deterministic SIRV model.
         Inputs:
@@ -116,25 +120,26 @@ def scale_and_shape_equality_robust_statistic(X, tol=0.0001, iterMax=20, *args):
                 * p = dimension of vectors
                 * N = number of Samples at each date
                 * T = length of time series
+            * args = tol, iterMax for Tyler
         Outputs:
             * the statistic given the observations in input"""
-
+    tol, iterMax = args
     (p, N, T) = X.shape
-    (Sigma_0, err, niter) = TylerFixedPointMatAndText(X, tol, IterMax)
+    (Sigma_0, err, niter) = TylerFixedPointMatAndText(X, tol, iterMax)
     iSigma_0  = np.linalg.inv(Sigma_0)
     logDenominator = T*p*np.log(T)
     logNumerator = T*N*np.log(np.abs(np.linalg.det(Sigma_0)))
     numTemp = 0
     for t in range(0, T):
         xkt = X[:, :, t]
-        (Sigma_t, err, niter) = TylerFixedPoint(xkt, tol, IterMax)
+        (Sigma_t, err, niter) = TylerFixedPoint(xkt, tol, iterMax)
         numTemp = numTemp + np.diagonal(xkt.conj().T @ iSigma_0 @ xkt)
         logDenominator = logDenominator + N*np.log(np.abs(np.linalg.det(Sigma_t))) + \
                          p*np.sum(np.log(np.diagonal(xkt.conj().T @ np.linalg.inv(Sigma_t) @ xkt)))
     logNumerator = logNumerator + T*p*np.sum(np.log(numTemp))
     return np.exp(np.real(logNumerator - logDenominator))
 
-def shape_equality_robust_statistic(X, tol=0.0001, iterMax=20, *args):
+def shape_equality_robust_statistic(X, args):
     """ GLRT test for testing a change in the shape in 
         a deterministic SIRV model.
         Inputs:
@@ -142,11 +147,13 @@ def shape_equality_robust_statistic(X, tol=0.0001, iterMax=20, *args):
                 * p = dimension of vectors
                 * N = number of Samples at each date
                 * T = length of time series
+            * args = tol, iterMax for Tyler
         Outputs:
             * the statistic given the observations in input"""
 
+    tol, iterMax = args
     (p, N, T) = X.shape
-    (Sigma_0, err, niter) = TylerFixedPoint(np.reshape(X, (p, N*T)), tol, IterMax)
+    (Sigma_0, err, niter) = TylerFixedPoint(np.reshape(X, (p, N*T)), tol, iterMax)
     iSigma_0 = np.linalg.inv(Sigma_0)
     logDenominator = 0
     logNumerator = T * N * np.log(np.abs(np.linalg.det(Sigma_0)))

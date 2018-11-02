@@ -17,7 +17,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ##############################################################################
-import numpy as np
+import numpy as npp
 import scipy as sp
 from Functions import *
 from ChangeDetectionFunctions import *
