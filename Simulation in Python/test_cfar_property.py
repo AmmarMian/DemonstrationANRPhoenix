@@ -33,10 +33,8 @@ sns.set_style("darkgrid")
 __spec__ = "ModuleSpec(name='builtins', loader=<class '_frozen_importlib.BuiltinImporter'>)"
 
 
-
-
 def covariance_cfar():
-	#########################################################################################
+    #########################################################################################
     # Covariance CFARness
     #########################################################################################
     print("Computing Monte-Carlo simulation for testing the covariance CFAR property")
@@ -101,11 +99,11 @@ def covariance_cfar():
 
 
 def texture_non_equality_cfar():
-	#########################################################################################
-    # Texture CFARness: The texture is not equal between the dates
+    #########################################################################################
+    # Texture CFARness: The textures are not equal between the dates
     #########################################################################################
    print("Computing Monte-Carlo simulation for testing the texture CFAR property")
-   print("The texture is not equal between the dates here")
+   print("The textures is are equal between the dates here")
 
    # Select zero-mean, no pseudo-covariance, K-distribution
    data_generation_function = generate_time_series_multivariate_vector
@@ -124,13 +122,12 @@ def texture_non_equality_cfar():
    i_mu = 0
    for mu in tqdm(mu_vec): # Iterate for each value of b
 
-       
        # Generating parameters to pass to the Monte-Carlo function: since
        # the series is homogeneous, we repeat T times
        data_args_list = [[𝛍, 𝚺, N, mu, b, pseudo_𝚺]]*T 
        data_generation_args = [p, N, T, generation_function, data_args_list]
 
-       # Computing the Monte-Carlo siblation for this value of mu
+       # Computing the Monte-Carlo simulation for this value of mu
        λ[:,:,i_mu] = np.array(compute_monte_carlo_parallel(data_generation_function, data_generation_args, 
                                        function_to_compute, function_args, 
                                        number_of_trials, multi=multi, number_of_threads=number_of_threads))
@@ -159,14 +156,92 @@ def texture_non_equality_cfar():
        else:
            plt.xlabel(r'$\lambda$')
        plt.ylabel(r'PDF')
-       plt.title(r'Texture CFAR property for %s. The texture is not equal between the dates' % Λ)
+       plt.title(r'Texture CFAR property for %s. The textures are not equal between the dates' % Λ)
    plt.show()
    
    return λ
 
 def texture_equality_cfar():
-    print("Not implemented yet")
-    return 0
+    #########################################################################################
+    # Texture CFARness: The textures are equal between the dates
+    #########################################################################################
+   print("Computing Monte-Carlo simulation for testing the texture CFAR property")
+   print("The textures are equal between the dates here")
+
+   # Select zero-mean, no pseudo-covariance, K-distribution
+   data_generation_function = generate_time_series_K_distribution_texture_equality
+   𝚺 = ToeplitzMatrix(0.5, p)
+   𝛍 = np.zeros(p)
+   # Scale parameter of for texture in K-distribution
+   b = 0.5
+   # Values for K-distribution shape parameter to compute the distribution for
+   mu_vec = np.linspace(0.1,10,5) 
+
+   # Container to store the values of the statistics
+   λ = np.zeros((number_of_trials, len(statistics_list), len(mu_vec)))
+
+   i_mu = 0
+   for mu in tqdm(mu_vec): # Iterate for each value of b
+
+        # Setting arguments to pass to data_generation_function
+        data_generation_args = [p, N, T, mu, b, N, 𝛍, 𝚺]
+
+        # Computing the Monte-Carlo simulation for this value of mu
+        λ[:,:,i_mu] = np.array(compute_monte_carlo_parallel(data_generation_function, data_generation_args, 
+                                       function_to_compute, function_args, 
+                                       number_of_trials, multi=multi, number_of_threads=number_of_threads))
+
+        i_mu = i_mu + 1
+
+   # Plotting
+   for i_Λ, Λ in enumerate(statistics_names): # A figure by statistic
+       plt.figure(figsize=(12, 7), dpi=80, facecolor='w')
+       ax = plt.gca()
+       for i_mu, mu in enumerate(mu_vec): # Plotting the different histograms for each value of b
+            # Sometimes infinite value can appear due to overflow, we skip them
+            λ_to_plot = λ[:,i_Λ, i_mu]
+            λ_to_plot = λ_to_plot[λ_to_plot!=np.inf]
+            if statistics_scale[i_Λ] == 'log':
+               plt.hist(np.log(λ_to_plot), number_of_bins_histogram,
+                        label=r'$\mu=%.2f$' % mu, alpha=0.5, density=True,
+                        edgecolor='black', linewidth=0.5)
+            else:
+               plt.hist(λ_to_plot, number_of_bins_histogram, 
+                        label=r'$\mu=%.2f$' % mu, alpha=0.5, density=True,
+                        edgecolor='black', linewidth=0.5)
+       plt.legend()
+       if statistics_scale[i_Λ] == 'log':
+           plt.xlabel(r'$\log(\lambda)$')
+       else:
+           plt.xlabel(r'$\lambda$')
+       plt.ylabel(r'PDF')
+       plt.title(r'Texture CFAR property for %s. The textures are equal between the dates' % Λ)
+   plt.show()
+   
+   return λ
+
+
+def generate_time_series_K_distribution_texture_equality(Args):
+    """ A specific function aimed at geerating K-distributed samples with texture equality constraint.
+            * Args compromising:
+                * p = dimension of samples
+                * N = number of samples at each date sharing the same distribution parameters
+                * T = length of time series
+                * mu = Shape parameter
+                * b = Scale parameter
+                * N = number of Samples
+                * 𝛍 = mean
+                * 𝚺 = covariance matrix
+        Outputs:
+            * an array of shape (p, N, T) corresponding to the time series"""
+    p, N, T, mu, b, N, 𝛍, 𝚺 = Args
+    𝐗 = np.zeros((p, N, T)).astype(complex)
+    τ = np.random.gamma(mu, 2/(b**2), N)
+    for t in range(0, T):
+        𝐳 = multivariate_complex_normal_samples(np.zeros(𝛍.shape), 𝚺, N)
+        𝐗[:, :, t] = np.tile(𝛍.reshape((len(𝛍),1)),(1,N)) + 𝐳*np.sqrt(τ)[None,:]  
+    return 𝐗
+
 
 if __name__ == '__main__':
 
@@ -175,14 +250,14 @@ if __name__ == '__main__':
     #########################################################################################
 
     # General parameters
-    p = 3
-    N = 10
-    T = 2
+    p = 10
+    N = 25
+    T = 3
 
     # Monte-Carlo parameters
-    number_of_trials = 4000
+    number_of_trials = 1200
     multi = True # Parallel computation or not
-    number_of_threads = 40 # for parallel compuatation
+    number_of_threads = 12 # for parallel compuatation
     # Statistics to use
     statistics_list = [covariance_equality_glrt_gaussian_statistic,
                         covariance_equality_t1_gaussian_statistic,
@@ -219,24 +294,23 @@ if __name__ == '__main__':
     print("    * K distribution is selected")
     print("    * %d Monte-Carlo Trials will be done" % number_of_trials)
     if multi:
-    	print("    * The simulation will be done using %d threads in parallel" % number_of_threads)
+        print("    * The simulation will be done using %d threads in parallel" % number_of_threads)
     print("The following statistics have been selected (Name: Arguments):")
     for i_Λ, Λ in enumerate(statistics_names):
-    	print("    * %s: %s" % (Λ, str(statistics_args[i_Λ])))
+        print("    * %s: %s" % (Λ, str(statistics_args[i_Λ])))
 
     # Letting the choice to test Covariance, texture with non-equality and texture with equality
     choice = 3
     while (choice>2) or (choice<0):
-	    print("Please chose an option:")
-	    print("0: Covariance CFAR")
-	    print("1: Texture CFAR with no equality between dates")
-	    print("2: Texture CFAR with equality between dates")
-	    choice = int(input())
+        print("Please chose an option:")
+        print("0: Covariance CFAR")
+        print("1: Texture CFAR with no equality between dates")
+        print("2: Texture CFAR with equality between dates")
+        choice = int(input())
 
-	# Doing Simulation
+    # Doing Simulation
     possibilities = {0 : covariance_cfar,
        1 : texture_non_equality_cfar,
        2 : texture_equality_cfar}
     possibilities[choice]()
-
 

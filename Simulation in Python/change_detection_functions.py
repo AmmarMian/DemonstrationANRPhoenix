@@ -48,7 +48,7 @@ def covariance_equality_glrt_gaussian_statistic(𝐗, *args):
         logDenominator = logDenominator + N * np.log(np.abs(np.linalg.det(St)))
         S = S + St / T
     logNumerator = N * T * np.log(np.abs(np.linalg.det(S)))
-    return np.exp(logNumerator - logDenominator)
+    return np.exp(np.real(logNumerator - logDenominator))
 
 
 def covariance_equality_t1_gaussian_statistic(𝐗, *args):
@@ -114,7 +114,7 @@ def covariance_equality_Wald_gaussian_statistic(𝐗, *args):
 # Robust Statistics
 ##############################################################################
 def scale_and_shape_equality_robust_statistic(𝐗, args):
-    """ GLRT test for testing a change in the scale or/and shape in 
+    """ GLRT test for testing a change in the scale or/and shape of 
         a deterministic SIRV model.
         Inputs:
             * 𝐗 = a (p, N, T) numpy array with:
@@ -161,7 +161,7 @@ def scale_and_shape_equality_robust_statistic(𝐗, args):
     return λ
 
 def shape_equality_robust_statistic(𝐗, args):
-    """ GLRT test for testing a change in the shape in 
+    """ GLRT test for testing a change in the shape of 
         a deterministic SIRV model.
         Inputs:
             * 𝐗 = a (p, N, T) numpy array with:
@@ -209,7 +209,7 @@ def shape_equality_robust_statistic(𝐗, args):
 
 
 def scale_equality_robust_statistic(𝐗, args):
-    """ GLRT test for testing a change in the scale in 
+    """ GLRT test for testing a change in the scale of 
         a deterministic SIRV model.
         Inputs:
             * 𝐗 = a (p, N, T) numpy array with:

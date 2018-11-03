@@ -67,7 +67,7 @@ def generate_time_series_multivariate_vector(Args):
                 * T = length of time series
                 * data_generation_function = a function to generate random samples for each date:
                     must generate an array of shape (p, N)
-            * data_args = list of arguments corresponding to the values of the parameters of 
+                * data_args = list of arguments corresponding to the values of the parameters of 
                 the random distribution at each date
         Outputs:
             * an array of shape (p, N, T) corresponding to the time series"""
