@@ -107,7 +107,7 @@ def covariance_equality_Wald_gaussian_statistic(𝐗, *args):
             Q = Q + K*(iSigma_m1 - iSigma_m1@Sigma_11@iSigma_m1)
         O = O + K*np.kron(iSigma_m1.T, iSigma_m1)
     
-    return np.real(L - vec(Q).conj().T @ (np.linalg.inv(O)@vec(Q)))
+    return np.real(L - vec(Q).conj().T @ (np.linalg.inv(O)@vec(Q)))[0,0]
 
 
 ##############################################################################
