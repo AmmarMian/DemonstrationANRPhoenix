@@ -19,7 +19,7 @@
 ##############################################################################
 from multiprocessing import Process, Queue
 import numpy as np
-from Functions import *
+from generic_functions import *
 import time
 
 def wrapper_multivariate_complex_normal_samples(data_args):
@@ -136,7 +136,10 @@ def compute_monte_carlo_parallel(data_generation_function, data_generation_args,
             * data_generation_args = arguments to pass to data_generation_function
             * function_to_compute = a function to compute the desired quantity
             * function_args = arguments to pass to function_to_compute
-            * number_of_trials = number of Monte-Carlo trials to run
+            * number_of_trials = number of Monte-Carlo trials to run 
+                    (multiple of number_of_threads please 
+                    or make sure that number_of_trials/number_of_threads is an 
+                    integer at least)
             * multi = True if parallel computing, False if not
             * number_of_threads = number of thread to use (number of cores of the machine in general)
         Outputs:

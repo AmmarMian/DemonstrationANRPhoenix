@@ -148,42 +148,45 @@ def SCM(x, *args):
     return (x @ x.conj().T) / N
 
 
-def TylerFixedPoint(x, tol=0.0001, iterMax=10, *args):
+def tyler_estimator_covariance(𝐗, tol=0.001, iter_max=20):
     """ A function that computes the Tyler Fixed Point Estimator for covariance matrix estimation
-            Inputs:
-                * x = a matrix of size p*N with each observation along column dimension
-                * tol = tolerance for convergence of estimator
-                * iterMax = number of maximum iterations
-            Outputs:
-                * Sigma = the estimate
-                * error = the final error between two iterations
-                * iteration = number of iterations til convergence """
+        Inputs:
+            * 𝐗 = a matrix of size p*N with each observation along column dimension
+            * tol = tolerance for convergence of estimator
+            * iter_max = number of maximum iterations
+        Outputs:
+            * 𝚺 = the estimate
+            * δ = the final distance between two iterations
+            * iteration = number of iterations til convergence """
 
-    (p, N) = x.shape
-    error = np.inf
-    converged = False
+    # Initialisation
+    (p,N) = 𝐗.shape
+    δ = np.inf # Distance between two iterations
+    𝚺 = np.eye(p) # Initialise estimate to identity
     iteration = 0
-    Sigma = np.eye(p)
-    while not converged and iteration < iterMax:
+
+    # Recursive algorithm
+    while (δ>tol) and (iteration<iter_max):
+        
+        # Computing expression of Tyler estimator (with matrix multiplication)
+        τ = np.diagonal(𝐗.conj().T@np.linalg.inv(𝚺)@𝐗)
+        𝐗_bis = 𝐗 / np.sqrt(τ)
+        𝚺_new = (p/N) * 𝐗_bis@𝐗_bis.conj().T
+
+        # Imposing trace constraint: Tr(𝚺) = p
+        𝚺_new = p*𝚺_new/np.trace(𝚺_new)
+
+        # Condition for stopping
+        δ = np.linalg.norm(𝚺_new - 𝚺, 'fro') / np.linalg.norm(𝚺, 'fro')
         iteration = iteration + 1
 
-        # Compute the quadratic form efficiently
-        vx = np.dot(np.linalg.inv(np.linalg.cholesky(Sigma).conj().T), x)
-        ax = np.mean(vx * np.conj(vx))
-        xbis = x / np.sqrt(np.tile(ax, (p, 1)))
-        Sigma_new = np.dot(xbis, xbis.conj().T) / N
-        Sigma_new = p * Sigma_new / np.trace(Sigma_new)
+        # Updating 𝚺
+        𝚺 = 𝚺_new
 
-        # Compute error
-        error = np.linalg.norm(Sigma_new - Sigma, 'fro') / np.linalg.norm(Sigma, 'fro')
-        converged = error < tol
-        Sigma = Sigma_new
+    if iteration == iter_max:
+        warnings.warn('Recursive algorithm did not converge')
 
-    if iteration == iterMax:
-        print("Waring: Tyler Fixed point algorithm has not converged")
-
-    return (Sigma, error, iteration)
-
+    return (𝚺, δ, iteration)
 
 def ToeplitzMatrix(rho, p):
     """ A function that computes a Hermitian semi-positive matrix.
@@ -197,4 +200,4 @@ def ToeplitzMatrix(rho, p):
 
 def vec(M):
     """ Vectorize the matrix M in input """
-    return M.reshape(np.prod(M.shape))
+    return M.flatten().reshape((np.prod(M.shape),1))
