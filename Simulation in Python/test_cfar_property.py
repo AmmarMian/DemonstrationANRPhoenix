@@ -1,5 +1,5 @@
 ##############################################################################
-# Plotting CFARness property of considered statistics
+# Plotting CFARness property of considered statistics: only K-dist
 # Authored by Ammar Mian, 29/10/2018
 # e-mail: ammar.mian@centralesupelec.fr
 ##############################################################################

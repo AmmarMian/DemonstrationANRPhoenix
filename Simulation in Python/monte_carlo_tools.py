@@ -47,7 +47,7 @@ def wrapper_multivariate_complex_Cauchy_samples(data_args):
     """ A wrapper for the Cauchy distribution data generation function multivariate_complex_Cauchy_samples
         in order to have a generic form for Monte-Carlo function """
     mean, covariance, N, mu, b, pseudo_covariance = data_args
-    return wrapper_multivariate_complex_Cauchy_samples(mean, covariance, N, mu, b, pseudo_covariance)
+    return multivariate_complex_Cauchy_samples(mean, covariance, N, mu, b, pseudo_covariance)
 
 
 def wrapper_multivariate_complex_Laplace_samples(data_args):
