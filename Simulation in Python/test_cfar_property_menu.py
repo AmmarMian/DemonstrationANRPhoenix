@@ -1,6 +1,6 @@
 ##############################################################################
 # Plotting CFARness property of considered statistics
-# In this file, a menu allows to chose some parameters od the simulation
+# In this file, a menu allows to chose some parameters of the simulation
 # Authored by Ammar Mian, 04/11/2018
 # e-mail: ammar.mian@centralesupelec.fr
 ##############################################################################
@@ -74,6 +74,7 @@ def covariance_cfar():
 
     i_ρ = 0
     print("Computing Monte-Carlo simulation for testing the covariance CFAR property")
+    print_bunny()
     for ρ in tqdm(ρ_vec): # Iterate for each value of ρ
         
         # Generating Covariance matrix with given ρ
@@ -138,7 +139,6 @@ def texture_non_equality_cfar():
     𝛍 = np.zeros(p)
     pseudo_𝚺 = 0
 
-
     # Treating the different possibilities of distributions
     data_functions_per_distribution = {0: wrapper_multivariate_complex_normal_samples,
         1: wrapper_multivariate_complex_K_samples,
@@ -174,6 +174,7 @@ def texture_non_equality_cfar():
 
             i_b = 0
             print("Computing Monte-Carlo simulation for testing the texture CFAR property")
+            print_bunny()
             for b in tqdm(b_vec): # Iterate for each value of b
                # Generating parameters to pass to the Monte-Carlo function: since
                # the series is homogeneous, we repeat T times
@@ -223,6 +224,7 @@ def texture_non_equality_cfar():
 
             i_mu = 0
             print("Computing Monte-Carlo simulation for testing the texture CFAR property")
+            print_bunny()
             for mu in tqdm(mu_vec): # Iterate for each value of mu
 
                # Generating parameters to pass to the Monte-Carlo function: since
@@ -279,6 +281,7 @@ def texture_non_equality_cfar():
 
         i_df_or_b = 0
         print("Computing Monte-Carlo simulation for testing the texture with no equality between dates CFAR property")
+        print_bunny()
         for df_or_b in tqdm(df_or_b_vec): # Iterate for each value of df_or_b
 
            # Generating parameters to pass to the Monte-Carlo function: since
@@ -364,6 +367,7 @@ def texture_equality_cfar():
 
             i_b = 0
             print("Computing Monte-Carlo simulation for testing the texture CFAR property")
+            print_bunny()
             for b in tqdm(b_vec): # Iterate for each value of b
 
                # Generating parameters to pass to the Monte-Carlo function: 
@@ -412,6 +416,7 @@ def texture_equality_cfar():
 
             i_mu = 0
             print("Computing Monte-Carlo simulation for testing the texture CFAR property")
+            print_bunny()
             for mu in tqdm(mu_vec): # Iterate for each value of mu
 
                # Generating parameters to pass to the Monte-Carlo function: 
@@ -466,6 +471,7 @@ def texture_equality_cfar():
 
         i_df_or_b = 0
         print("Computing Monte-Carlo simulation for testing the texture with equality between dates CFAR property")
+        print_bunny()
         for df_or_b in tqdm(df_or_b_vec): # Iterate for each value of df_or_b
 
            # Generating parameters to pass to the Monte-Carlo function:
@@ -505,6 +511,16 @@ def texture_equality_cfar():
     return λ
 
 
+def print_bunny():
+    print( '|￣￣￣￣￣￣￣￣|')
+    print( '|   COMPUTING   |') 
+    print( '|   in progress |')
+    print( '|               |' )  
+    print( '| ＿＿＿_＿＿＿＿|') 
+    print( ' (\__/) ||') 
+    print( ' (•ㅅ•) || ')
+    print( ' / 　 づ')
+
 if __name__ == '__main__':
 
     #########################################################################################
@@ -514,12 +530,15 @@ if __name__ == '__main__':
     # General parameters
     p = 3
     N = 10
-    T = 2
+    T = 3
 
     # Monte-Carlo parameters
-    number_of_trials = 1200
-    multi = False # Parallel computation or not
-    number_of_threads = 12 # for parallel compuatation
+    number_of_trials = 48000
+    multi = True # Parallel computation or not
+    number_of_threads = 48 # for parallel compuatation
+    if (number_of_trials%number_of_threads) !=0:
+        number_of_trials = int(number_of_trials/number_of_threads) * number_of_threads
+
     # Statistics to use
     statistics_list = [covariance_equality_glrt_gaussian_statistic,
                         covariance_equality_t1_gaussian_statistic,
