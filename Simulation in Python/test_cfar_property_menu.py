@@ -24,22 +24,24 @@ from generic_functions import *
 from sar_time_series_functions import *
 from change_detection_functions import *
 import seaborn as sns
+sns.set_style("darkgrid")
 import matplotlib.pyplot as plt
 from matplotlib import rc
 from monte_carlo_tools import *
 from tqdm import tqdm
 import ast
-rc('font', **{'family': 'sans-serif', 'sans-serif': ['Helvetica']})
-rc('text', usetex=True)
-sns.set_style("darkgrid")
-__spec__ = "ModuleSpec(name='builtins', loader=<class '_frozen_importlib.BuiltinImporter'>)"
+
 
 
 def covariance_cfar():
     #########################################################################################
     # Covariance CFARness
     #########################################################################################
-   
+    # Activate latex in figures (or not)
+    latex_in_figures = False
+    if latex_in_figures:
+      enable_latex_infigures()
+
     # Select zero-mean, no pseudo-covariance, chosen distrbution
     data_generation_function = generate_time_series_multivariate_vector
     𝛍 = np.zeros(p)
@@ -533,7 +535,7 @@ if __name__ == '__main__':
     T = 3
 
     # Monte-Carlo parameters
-    number_of_trials = 48000
+    number_of_trials = 4800
     multi = True # Parallel computation or not
     number_of_threads = 48 # for parallel compuatation
     if (number_of_trials%number_of_threads) !=0:

@@ -23,6 +23,7 @@ from generic_functions import *
 import time
 from tqdm import tqdm
 
+
 def sliding_windows_treatment_image_time_series(image, windows_mask, function_to_compute, function_args, multi=False, queue=0):
     """ A function that allowing to compute a sliding windows treatment over a multivariate
         image time series.
@@ -111,7 +112,7 @@ def sliding_windows_treatment_image_time_series_parallel(image, windows_mask, fu
             else:
                 index_row_start = int(n_r/number_of_threads_rows)*i_row - int(m_r/2)
             if i_row == number_of_threads_rows-1:
-                index_row_end = n_r - 1
+                index_row_end = n_r
             else:
                 index_row_end = int(n_r/number_of_threads_rows)*(i_row+1) + int(m_r/2)
 
@@ -124,7 +125,7 @@ def sliding_windows_treatment_image_time_series_parallel(image, windows_mask, fu
                 else:
                     index_column_start = int(n_c/number_of_threads_columns)*i_column - int(m_c/2)
                 if i_column == number_of_threads_columns-1:
-                    index_column_end = n_c - 1
+                    index_column_end = n_c
                 else:
                     index_column_end = int(n_c/number_of_threads_columns)*(i_column+1) + int(m_c/2)
 
@@ -178,34 +179,5 @@ def sliding_windows_treatment_image_time_series_parallel(image, windows_mask, fu
         results = sliding_windows_treatment_image_time_series(image, windows_mask, 
                                         function_to_compute, function_args)
     return results
-
-if __name__ == '__main__':
-    import matplotlib.pyplot as plt
-    from monte_carlo_tools import *
-    from change_detection_functions import *
-    import time
-    from read_sar_data import *
-    # Reading data using the class
-    data_class = uavsar_slc_stack_1x1('D:/UAVSAR/SanAnd_26524_03/')
-    data_class.read_data(polarisation=['HH', 'HV', 'VV'], segment=4, crop_indexes=[25600,27900,3235,3835])
-    t_beginning = time.time()
-    function_to_compute = compute_several_statistics
-    function_args = [[covariance_equality_glrt_gaussian_statistic, 
-                      scale_and_shape_equality_robust_statistic], [None, (0.001,100)]]
-    p = 3
-    T = 2
-    windows_mask = np.ones((7,7))
-    print( '|￣￣￣￣￣￣￣￣|')
-    print( '|   COMPUTING   |') 
-    print( '|   in progress |')
-    print( '|               |' )  
-    print( '| ＿＿＿_＿＿＿＿|') 
-    print( ' (\__/) ||') 
-    print( ' (•ㅅ•) || ')
-    print( ' / 　 づ')
-    results = sliding_windows_treatment_image_time_series_parallel(data_class.data, windows_mask, function_to_compute, 
-                    function_args, multi=True, number_of_threads_rows=6, number_of_threads_columns=4)
-    plt.figure(figsize=(10, 12), dpi=80, facecolor='w')
-    plt.imshow(np.log10(results[:,:,0]), aspect='auto')
-    plt.show()
-    print("Elpased time: %d s" %(time.time()-t_beginning))
+   
+    

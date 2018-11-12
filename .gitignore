@@ -7,6 +7,14 @@
 *.svg
 *.pdf
 
+# UAVSAR dataset
+##################
+*.slc
+*.llh
+*.lkv
+*.dop
+*.ann
+
 # Python
 #################################################
 # Byte-compiled / optimized / DLL files

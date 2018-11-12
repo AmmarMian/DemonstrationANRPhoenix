@@ -23,14 +23,8 @@ from generic_functions import *
 from change_detection_functions import *
 import seaborn as sns
 import matplotlib.pyplot as plt
-from matplotlib import rc
 from monte_carlo_tools import *
 from tqdm import tqdm
-
-rc('font', **{'family': 'sans-serif', 'sans-serif': ['Helvetica']})
-rc('text', usetex=True)
-sns.set_style("darkgrid")
-__spec__ = "ModuleSpec(name='builtins', loader=<class '_frozen_importlib.BuiltinImporter'>)"
 
 
 def covariance_cfar():
@@ -248,6 +242,10 @@ if __name__ == '__main__':
     #########################################################################################
     # Simulation parameters
     #########################################################################################
+    # Activate latex in figures (or not)
+    latex_in_figures = False
+    if latex_in_figures:
+      enable_latex_infigures()
 
     # General parameters
     p = 10

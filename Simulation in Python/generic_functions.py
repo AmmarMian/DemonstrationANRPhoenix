@@ -22,6 +22,15 @@ import scipy as sp
 import scipy.special
 
 
+def enable_latex_infigures():
+    """ A function that allows to enable latex in figures"""
+    from matplotlib import rc
+    rc('font', **{'family': 'sans-serif', 'sans-serif': ['Helvetica']})
+    rc('text', usetex=True)
+    sns.set_style("darkgrid")
+    __spec__ = "ModuleSpec(name='builtins', loader=<class '_frozen_importlib.BuiltinImporter'>)"
+
+
 def multivariate_complex_normal_samples(mean, covariance, N, pseudo_covariance=0):
     """ A function to generate multivariate complex normal vectos as described in:
         Picinbono, B. (1996). Second-order complex random vectors and normal
