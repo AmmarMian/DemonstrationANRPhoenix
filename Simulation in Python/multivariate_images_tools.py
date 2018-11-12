@@ -55,6 +55,7 @@ def sliding_windows_treatment_image_time_series(image, windows_mask, function_to
                     local_data = np.dstack((local_data, image[i_r-int(m_r/2):i_r+int(m_r/2)+1, i_c-int(m_c/2):i_c+int(m_c/2)+1, :, t].T.reshape((p,N))))
                 
                 # Applying mask
+                local_data = local_data.reshape((p,N,T))
                 local_data = local_data[:,windows_mask.reshape(m_r*m_c).astype(bool),:]
     
                 # Computing the function over the local data
@@ -72,6 +73,7 @@ def sliding_windows_treatment_image_time_series(image, windows_mask, function_to
                     local_data = np.dstack((local_data, image[i_r-int(m_r/2):i_r+int(m_r/2)+1, i_c-int(m_c/2):i_c+int(m_c/2)+1, :, t].T.reshape((p,N))))
                 
                 # Applying mask
+                local_data = local_data.reshape((p,N,T))
                 local_data = local_data[:,windows_mask.reshape(m_r*m_c).astype(bool),:]
     
                 # Computing the function over the local data
