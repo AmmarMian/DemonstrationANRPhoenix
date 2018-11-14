@@ -12,13 +12,12 @@ The description of the work can be found in:
 
 If you use any code of the repository, please consider citing the above mentionned reference.
 
-CAUTION: Work in progress for now, so not everything is done yet.
-
 ## Files' organisation
 
 This folder is organised as follows:
  - **Simulation in Matlab/** contains code for the simulation in Matlab (2017a).
- 	WARNING: This folder correspond to an older version of code not well commented. If you can, prefer the Python version which was specifically
+ 
+ 	**WARNING**: This folder correspond to an older version of code not well commented. If you can, prefer the Python version which was specifically
  	developped to be shared.
  - **Simulation in Python/** contains code for simulation done in Python (3.7).
 
