@@ -25,6 +25,7 @@ This folder is organised as follows:
 
 ## Requirements for Python
 	The code provided was developped and tested using Python 3.7. The following packages must be installed in order to run everything smoothly:
+
 	- Scipy/numpy
 	- matplotlib
 	- seaborn
@@ -40,7 +41,8 @@ This folder is organised as follows:
  - **test_cfar_property.py** contains a code to test Matrix and CFAR properties of statistics.
  - **test_cfar_property_menu.py** is an interactiver version of test_cfar_property.py, where a menu allows to chose the parameters of the simulation.
  - **plot_roc_uavsar_dataset.py** contains a code to compare the results of statistics on a real UAVSAR dataset.
- 	 WARNING: If the data is not already in the path specified at the beginning of the file, it will download it automatically.
+
+ 	 **WARNING**: If the data is not already in the path specified at the beginning of the file, it will download it automatically.
  	 		  The data is approximately 28 Go in size.
  - **generic_functions.py** contains some general use functions including random vectors generation ones.
  - **monte_carlo_tools.py** contains some functions used in order to compute Monte-Carlo simulations efficiently.
