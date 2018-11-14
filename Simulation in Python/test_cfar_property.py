@@ -60,7 +60,7 @@ def covariance_cfar():
         # Computing the Monte-Carlo simulation for this value of ρ
         λ[:,:,i_ρ] = np.array(compute_monte_carlo_parallel(data_generation_function, data_generation_args, 
                                         function_to_compute, function_args, 
-                                        number_of_trials, multi=multi, number_of_threads=number_of_threads))
+                                        number_of_trials, multi=enable_multi, number_of_threads=number_of_threads))
 
         i_ρ = i_ρ + 1
 
@@ -124,7 +124,7 @@ def texture_non_equality_cfar():
        # Computing the Monte-Carlo simulation for this value of mu
        λ[:,:,i_mu] = np.array(compute_monte_carlo_parallel(data_generation_function, data_generation_args, 
                                        function_to_compute, function_args, 
-                                       number_of_trials, multi=multi, number_of_threads=number_of_threads))
+                                       number_of_trials, multi=enable_multi, number_of_threads=number_of_threads))
 
        i_mu = i_mu + 1
 
@@ -183,7 +183,7 @@ def texture_equality_cfar():
         # Computing the Monte-Carlo simulation for this value of mu
         λ[:,:,i_mu] = np.array(compute_monte_carlo_parallel(data_generation_function, data_generation_args, 
                                        function_to_compute, function_args, 
-                                       number_of_trials, multi=multi, number_of_threads=number_of_threads))
+                                       number_of_trials, multi=enable_multi, number_of_threads=number_of_threads))
 
         i_mu = i_mu + 1
 
@@ -247,6 +247,12 @@ if __name__ == '__main__':
     if latex_in_figures:
       enable_latex_infigures()
 
+    # Enable parallel processing (or not)
+    # In general the optimal parameters are obtained for 
+    # number_of_threads = number of cores on the machine
+    enable_multi = True
+    number_of_threads = 48 # for parallel compuatation
+
     # General parameters
     p = 10
     N = 25
@@ -254,8 +260,6 @@ if __name__ == '__main__':
 
     # Monte-Carlo parameters
     number_of_trials = 1200
-    multi = True # Parallel computation or not
-    number_of_threads = 12 # for parallel compuatation
     # Statistics to use
     statistics_list = [covariance_equality_glrt_gaussian_statistic,
                         covariance_equality_t1_gaussian_statistic,
@@ -291,7 +295,7 @@ if __name__ == '__main__':
     print("    * p=%d, N=%d, T=%d" % (p,N,T))
     print("    * K distribution is selected")
     print("    * %d Monte-Carlo Trials will be done" % number_of_trials)
-    if multi:
+    if enable_multi:
         print("    * The simulation will be done using %d threads in parallel" % number_of_threads)
     print("The following statistics have been selected (Name: Arguments):")
     for i_Λ, Λ in enumerate(statistics_names):

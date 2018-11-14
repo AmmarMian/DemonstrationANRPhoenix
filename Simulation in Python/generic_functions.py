@@ -27,7 +27,6 @@ def enable_latex_infigures():
     from matplotlib import rc
     rc('font', **{'family': 'sans-serif', 'sans-serif': ['Helvetica']})
     rc('text', usetex=True)
-    sns.set_style("darkgrid")
     __spec__ = "ModuleSpec(name='builtins', loader=<class '_frozen_importlib.BuiltinImporter'>)"
 
 

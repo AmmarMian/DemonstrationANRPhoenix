@@ -99,7 +99,7 @@ def covariance_cfar():
         # Computing the Monte-Carlo simulation for this value of ρ
         λ[:,:,i_ρ] = np.array(compute_monte_carlo_parallel(data_generation_function, data_generation_args, 
                                         function_to_compute, function_args, 
-                                        number_of_trials, multi=multi, number_of_threads=number_of_threads))
+                                        number_of_trials, multi=enable_multi, number_of_threads=number_of_threads))
         i_ρ = i_ρ + 1
 
     # Plotting
@@ -186,7 +186,7 @@ def texture_non_equality_cfar():
                # Computing the Monte-Carlo simulation for this value of b
                λ[:,:,i_b] = np.array(compute_monte_carlo_parallel(data_generation_function, data_generation_args, 
                                                function_to_compute, function_args, 
-                                               number_of_trials, multi=multi, number_of_threads=number_of_threads))
+                                               number_of_trials, multi=enable_multi, number_of_threads=number_of_threads))
                i_b = i_b + 1
                
             # Plotting
@@ -237,7 +237,7 @@ def texture_non_equality_cfar():
                # Computing the Monte-Carlo simulation for this value of mu
                λ[:,:,i_mu] = np.array(compute_monte_carlo_parallel(data_generation_function, data_generation_args, 
                                                function_to_compute, function_args, 
-                                               number_of_trials, multi=multi, number_of_threads=number_of_threads))
+                                               number_of_trials, multi=enable_multi, number_of_threads=number_of_threads))
                i_mu = i_mu + 1
 
             # Plotting
@@ -294,7 +294,7 @@ def texture_non_equality_cfar():
            # Computing the Monte-Carlo simulation for this value of df_or_b
            λ[:,:,i_df_or_b] = np.array(compute_monte_carlo_parallel(data_generation_function, data_generation_args, 
                                            function_to_compute, function_args, 
-                                           number_of_trials, multi=multi, number_of_threads=number_of_threads))
+                                           number_of_trials, multi=enable_multi, number_of_threads=number_of_threads))
            i_df_or_b = i_df_or_b + 1
 
         # Plotting
@@ -378,7 +378,7 @@ def texture_equality_cfar():
                # Computing the Monte-Carlo simulation for this value of b
                λ[:,:,i_b] = np.array(compute_monte_carlo_parallel(data_generation_function, data_generation_args, 
                                                function_to_compute, function_args, 
-                                               number_of_trials, multi=multi, number_of_threads=number_of_threads))
+                                               number_of_trials, multi=enable_multi, number_of_threads=number_of_threads))
                i_b = i_b + 1
                
             # Plotting
@@ -427,7 +427,7 @@ def texture_equality_cfar():
                # Computing the Monte-Carlo simulation for this value of mu
                λ[:,:,i_mu] = np.array(compute_monte_carlo_parallel(data_generation_function, data_generation_args, 
                                                function_to_compute, function_args, 
-                                               number_of_trials, multi=multi, number_of_threads=number_of_threads))
+                                               number_of_trials, multi=enable_multi, number_of_threads=number_of_threads))
                i_mu = i_mu + 1
 
             # Plotting
@@ -482,7 +482,7 @@ def texture_equality_cfar():
            # Computing the Monte-Carlo simulation for this value of df_or_b
            λ[:,:,i_df_or_b] = np.array(compute_monte_carlo_parallel(data_generation_function, data_generation_args, 
                                            function_to_compute, function_args, 
-                                           number_of_trials, multi=multi, number_of_threads=number_of_threads))
+                                           number_of_trials, multi=enable_multi, number_of_threads=number_of_threads))
            i_df_or_b = i_df_or_b + 1
 
         # Plotting
@@ -529,6 +529,13 @@ if __name__ == '__main__':
     # Simulation parameters
     #########################################################################################
 
+    # Enable parallel processing (or not)
+    # In general the optimal parameters are obtained for 
+    # number_of_threads = number of cores on the machine
+    enable_multi = True
+    number_of_threads = 48 # for parallel compuatation
+
+
     # General parameters
     p = 3
     N = 10
@@ -536,8 +543,6 @@ if __name__ == '__main__':
 
     # Monte-Carlo parameters
     number_of_trials = 4800
-    multi = True # Parallel computation or not
-    number_of_threads = 48 # for parallel compuatation
     if (number_of_trials%number_of_threads) !=0:
         number_of_trials = int(number_of_trials/number_of_threads) * number_of_threads
 
@@ -574,7 +579,7 @@ if __name__ == '__main__':
     print("Parameters of the simulation:")
     print("    * p=%d, N=%d, T=%d" % (p,N,T))
     print("    * %d Monte-Carlo Trials will be done" % number_of_trials)
-    if multi:
+    if enable_multi:
         print("    * The simulation will be done using %d threads in parallel" % number_of_threads)
 
 

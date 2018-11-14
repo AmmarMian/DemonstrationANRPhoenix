@@ -3,12 +3,22 @@
 This folder contains codes for a demonstration of the work I have done in the context of [ANR Phoenix](http://am.atto.free.fr/index_phoenix.htm).
 The works consists in the development of robust statistics for Change Detection in SAR Images.
 
+The description of the work can be found in:
+	"New Robust Statistics for Change Detection in Time Series of Multivariate SAR Images",
+	Ammar Mian , Guillaume Ginolhac , Jean-Philippe Ovarlez , Abdourahmane M. Atto,
+	in Transactions on Signal Processing
+	Available at: https://ammarmian.github.io/publication/tsp-2018/
+
+If you use any code of the repository, please consider citing the above mentionned reference.
+
 CAUTION: Work in progress for now, so not everything is done yet.
 
 ## Files' organisation
 
 This folder is organised as follows:
  - **Simulation in Matlab/** contains code for the simulation in Matlab (2017a). A readme detailing the simulation's file is available.
+ 	WARNING: This folder correspond to an older version of code not well commented. If you can prefer the Python version which was specifically
+ 	developped ro be shared.
  - **Simulation in Python/** contains code for simulation done in Python (3.7). A readme detailing the simulation's file is available.
 
 ## Credits
