@@ -25,7 +25,6 @@ This folder is organised as follows:
 
 ## Requirements for Python
 	The code provided was developped and tested using Python 3.7. The following packages must be installed in order to run everything smoothly:
-
 	- Scipy/numpy
 	- matplotlib
 	- seaborn
@@ -56,6 +55,11 @@ This folder is organised as follows:
 	in Transactions on Signal Processing
 	Available at: https://ammarmian.github.io/publication/tsp-2018/
 
+## Files' organisation in Simulation in Matlab folder
+ - **ChangeDetection/** contains a code to compute change detection over real dataset UAVSAR. You must specify the good path to the data since there is no
+ automatic download like in Python.
+ - **Theoretical/** contains several codes for testing CFARness, plotting theoretical ROC, testing convergence properties.
+ - **Detectors/** contains functions that computes the statistics for Change detection
 
 ## Credits
 **Author:** Ammar Mian, Ph.d student at SONDRA, CentraleSupélec
@@ -70,7 +74,7 @@ This folder is organised as follows:
  
 ## Copyright
  
- Copyright 2018 CentraleSupelec
+ Copyright 2018 @CentraleSupelec
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
