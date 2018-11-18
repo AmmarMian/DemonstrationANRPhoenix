@@ -24,13 +24,12 @@ from monte_carlo_tools import *
 from multivariate_images_tools import *
 from change_detection_functions import *
 from read_sar_data import *
-import wget
 import os
 import time
 import seaborn as sns
 sns.set_style("darkgrid")
 
-def download_uavsar_cd_dataset(parth='./Data/'):
+def download_uavsar_cd_dataset(path='./Data/'):
 
     # if directory exists just catch error
     try:
@@ -54,6 +53,7 @@ def download_uavsar_cd_dataset(parth='./Data/'):
 
     for file_url in list_of_files:
         if not os.path.exists(path + file_url.split('/')[-1]):
+            import wget
             print("File %s not found, downloading it" % file_url.split('/')[-1])
             wget.download(url=file_url, out=path+file_url.split('/')[-1])
 
