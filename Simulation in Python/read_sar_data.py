@@ -74,18 +74,20 @@ class uavsar_slc_stack_1x1():
                         len(self.unique_identifiers_time_list)), dtype='complex64')
             for t, entry_time in enumerate(self.unique_identifiers_time_list):
                 for i_pol, pol in enumerate(polarisation):
-                    # Read slc file in a temporary array an then crop it
+                    # Read slc file at the given crop indexes
                     file_name = entry_time.replace('POL', pol).replace('SEGMENT', str(segment))
-                    print("Reading %s" % (self.path+file_name))
                     shape = (int(self.meta_data['_'.join(file_name.split('_')[:-1])]['slc_1_1x1 Rows']),
-                             int(self.meta_data['_'.join(file_name.split('_')[:-1])]['slc_1_1x1 Columns']))               
-                    temp_array = np.fromfile( self.path + file_name + '_1x1.slc', dtype='complex64').reshape(shape)
-                    temp_array = temp_array[crop_indexes[0]:crop_indexes[1], crop_indexes[2]:crop_indexes[3]]
-                    self.data[:,:,i_pol,t] = temp_array
+                             int(self.meta_data['_'.join(file_name.split('_')[:-1])]['slc_1_1x1 Columns']))   
+                    print("Reading %s" % (self.path+file_name))
+                    with open(self.path + file_name + '_1x1.slc', 'rb') as f:
+                        f.seek((crop_indexes[0]*shape[1]+crop_indexes[2])*8, os.SEEK_SET)
+                        for row in range(crop_indexes[1]-crop_indexes[0]):
+                            self.data[row, :, i_pol,t] = np.fromfile(f, dtype=np.complex64, count=crop_indexes[3]-crop_indexes[2])
+                            f.seek(((crop_indexes[0]+row)*shape[1]+crop_indexes[2])*8, os.SEEK_SET)
         else:
             for t, entry_time in enumerate(self.unique_identifiers_time_list):
                 for i_pol, pol in enumerate(polarisation):
-                    # Read slc file in a temporary array an then crop it
+                    # Read whole slc file
                     file_name = entry_time.replace('POL', pol).replace('SEGMENT', str(segment))
                     print("Reading %s" % (self.path+file_name))
                     shape = (int(self.meta_data['_'.join(file_name.split('_')[:-1])]['slc_1_1x1 Rows']),
@@ -102,8 +104,8 @@ class uavsar_slc_stack_1x1():
 if __name__ == '__main__':
     
     # Reading data using the class
-    data_class = uavsar_slc_stack_1x1('D:/UAVSAR/SanAnd_26524_03/')
-    data_class.read_data(polarisation=['HH', 'HV', 'VV'], segment=4, crop_indexes=[25600,27900,3235,3835])
+    data_class = uavsar_slc_stack_1x1('D:/UAVSAR/Snjoaq/')
+    data_class.read_data(polarisation=['HH', 'HV', 'VV'], segment=2, crop_indexes=[25600,27900,3235,3835])
    
     # Plotting the time series in Grayscale representation
     dynamic = 50

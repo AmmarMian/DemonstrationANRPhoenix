@@ -533,7 +533,7 @@ if __name__ == '__main__':
     # In general the optimal parameters are obtained for 
     # number_of_threads = number of cores on the machine
     enable_multi = True
-    number_of_threads = 48 # for parallel compuatation
+    number_of_threads = 6 # for parallel compuatation
 
 
     # General parameters
@@ -542,7 +542,7 @@ if __name__ == '__main__':
     T = 3
 
     # Monte-Carlo parameters
-    number_of_trials = 4800
+    number_of_trials = 6000
     if (number_of_trials%number_of_threads) !=0:
         number_of_trials = int(number_of_trials/number_of_threads) * number_of_threads
 
