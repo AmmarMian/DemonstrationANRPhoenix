@@ -8,7 +8,8 @@ The description of the work can be found in:
 	"New Robust Statistics for Change Detection in Time Series of Multivariate SAR Images",
 	Ammar Mian , Guillaume Ginolhac , Jean-Philippe Ovarlez , Abdourahmane M. Atto,
 	in Transactions on Signal Processing
-	Available at: https://ammarmian.github.io/publication/tsp-2018/
+	URL: https://ieeexplore.ieee.org/document/8552453
+	Preprint available at: https://ammarmian.github.io/publication/tsp-2018/
 
 If you use any code of the repository, please consider citing the above mentionned reference.
 
@@ -53,7 +54,8 @@ This folder is organised as follows:
 	"New Robust Statistics for Change Detection in Time Series of Multivariate SAR Images",
 	Ammar Mian , Guillaume Ginolhac , Jean-Philippe Ovarlez , Abdourahmane M. Atto,
 	in Transactions on Signal Processing
-	Available at: https://ammarmian.github.io/publication/tsp-2018/
+	URL: https://ieeexplore.ieee.org/document/8552453
+	Preprint available at: https://ammarmian.github.io/publication/tsp-2018/
 
 ## Files' organisation in Simulation in Matlab folder
  - **ChangeDetection/** contains a code to compute change detection over real dataset UAVSAR. You must specify the good path to the data since there is no
