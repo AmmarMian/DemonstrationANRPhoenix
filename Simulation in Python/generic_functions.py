@@ -196,6 +196,44 @@ def tyler_estimator_covariance(𝐗, tol=0.001, iter_max=20):
 
     return (𝚺, δ, iteration)
 
+def student_t_estimator_covariance_mle(𝐗, d, tol=0.001, iter_max=20):
+    """ A function that computes the MLE for covariance matrix estimation for a student t distribution
+        when the degree of freedom is known
+        Inputs:
+            * 𝐗 = a matrix of size p*N with each observation along column dimension
+            * tol = tolerance for convergence of estimator
+            * iter_max = number of maximum iterations
+        Outputs:
+            * 𝚺 = the estimate
+            * δ = the final distance between two iterations
+            * iteration = number of iterations til convergence """
+
+    # Initialisation
+    (p,N) = 𝐗.shape
+    δ = np.inf # Distance between two iterations
+    𝚺 = np.eye(p) # Initialise estimate to identity
+    iteration = 0
+
+    # Recursive algorithm
+    while (δ>tol) and (iteration<iter_max):
+        
+        # Computing expression of Tyler estimator (with matrix multiplication)
+        τ = d + np.diagonal(𝐗.conj().T@np.linalg.inv(𝚺)@𝐗)
+        𝐗_bis = 𝐗 / np.sqrt(τ)
+        𝚺_new = ((d+p)/N) * 𝐗_bis@𝐗_bis.conj().T
+
+        # Condition for stopping
+        δ = np.linalg.norm(𝚺_new - 𝚺, 'fro') / np.linalg.norm(𝚺, 'fro')
+        iteration = iteration + 1
+
+        # Updating 𝚺
+        𝚺 = 𝚺_new
+
+    if iteration == iter_max:
+        warnings.warn('Recursive algorithm did not converge')
+
+    return (𝚺, δ, iteration)
+    
 def ToeplitzMatrix(rho, p):
     """ A function that computes a Hermitian semi-positive matrix.
             Inputs:

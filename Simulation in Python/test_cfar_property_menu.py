@@ -532,7 +532,7 @@ if __name__ == '__main__':
     # Enable parallel processing (or not)
     # In general the optimal parameters are obtained for 
     # number_of_threads = number of cores on the machine
-    enable_multi = True
+    enable_multi = False
     number_of_threads = 6 # for parallel compuatation
 
 
@@ -542,7 +542,7 @@ if __name__ == '__main__':
     T = 3
 
     # Monte-Carlo parameters
-    number_of_trials = 6000
+    number_of_trials = 10000
     if (number_of_trials%number_of_threads) !=0:
         number_of_trials = int(number_of_trials/number_of_threads) * number_of_threads
 
@@ -552,21 +552,23 @@ if __name__ == '__main__':
                         covariance_equality_Wald_gaussian_statistic,
                         shape_equality_robust_statistic,
                         scale_equality_robust_statistic,
-                        scale_and_shape_equality_robust_statistic]
+                        scale_and_shape_equality_robust_statistic,
+                        student_t_shape_statistic_d_known]
     
     # The Gaussian statistics need no arguments while the robust ones need 
     # convergence criterion and number max of iterations
-    statistics_args = [None]*3+[(0.01, 100)]*3
+    statistics_args = [None]*3+[(0.01, 100, 'log')]*3+[(3,0.01, 100, 'log')]
 
     # Naming the statistics for plotting
     statistics_names = [r'Gaussian GLRT statistic', r'$t_1$ statistic',
                         r'Wald statistic (Still buggy)',
                         r'Robust Shape statistic',
                         r'Robust Scale statistic',
-                        r'Robust Scale and/or Shape statistic']
+                        r'Robust Scale and/or Shape statistic',
+                        r'Robust Student-t']
 
     # If the scale of the statistic is to be plotted in logarithmic or linear
-    statistics_scale = ['log', 'linear', 'linear', 'log', 'log', 'log']
+    statistics_scale = ['log', 'linear', 'linear', 'log', 'log', 'log', 'log']
     
     # Plotting options
     number_of_bins_histogram = 50

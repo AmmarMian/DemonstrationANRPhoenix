@@ -99,23 +99,3 @@ class uavsar_slc_stack_1x1():
                         self.data = np.dtack(self.data, temp_array)
 
 
-
-
-if __name__ == '__main__':
-    
-    # Reading data using the class
-    data_class = uavsar_slc_stack_1x1('D:/UAVSAR/Snjoaq/')
-    data_class.read_data(polarisation=['HH', 'HV', 'VV'], segment=2, crop_indexes=[25600,27900,3235,3835])
-   
-    # Plotting the time series in Grayscale representation
-    dynamic = 50
-    for t, image in enumerate(data_class.unique_identifiers_time_list):
-        plt.figure(figsize=(6, 7), dpi=80, facecolor='w')
-        Span = np.sum(np.sqrt(np.abs(data_class.data[:,:,:,t])**2), axis=2)
-        plt.imshow(20*np.log10(Span), aspect='auto', cmap='gray',
-                   vmin=20*np.log10(Span).max()-dynamic, vmax=20*np.log10(Span).max())
-        plt.axis('off')
-        plt.colorbar()
-        plt.title('Image at time %d' % t)
-    Span = None
-

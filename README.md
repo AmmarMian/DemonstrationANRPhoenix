@@ -8,7 +8,8 @@ The description of the work can be found in:
 	"New Robust Statistics for Change Detection in Time Series of Multivariate SAR Images",
 	Ammar Mian , Guillaume Ginolhac , Jean-Philippe Ovarlez , Abdourahmane M. Atto,
 	in Transactions on Signal Processing
-	Available at: https://ammarmian.github.io/publication/tsp-2018/
+	Available at: https://ammarmian.github.io/publication/tsp-2019/
+	or https://ieeexplore.ieee.org/document/8552453
 
 If you use any code of the repository, please consider citing the above mentionned reference.
 
@@ -49,11 +50,12 @@ This folder is organised as follows:
  	of image using a sliding windows.
  - **plot_roc_uavsar_dataset.py** contains a class used to read UAVSAR dataset.
  - **sar_time_series_functions.py.py** contains functions to generate time series of vectors according to the three models presented in subsection III.B of:
-
+ 
 	"New Robust Statistics for Change Detection in Time Series of Multivariate SAR Images",
 	Ammar Mian , Guillaume Ginolhac , Jean-Philippe Ovarlez , Abdourahmane M. Atto,
 	in Transactions on Signal Processing
-	Available at: https://ammarmian.github.io/publication/tsp-2018/
+	Available at: https://ammarmian.github.io/publication/tsp-2019/
+	or https://ieeexplore.ieee.org/document/8552453
 
 ## Files' organisation in Simulation in Matlab folder
  - **ChangeDetection/** contains a code to compute change detection over real dataset UAVSAR. You must specify the good path to the data since there is no
