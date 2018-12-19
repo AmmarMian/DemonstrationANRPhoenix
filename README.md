@@ -9,7 +9,7 @@ The description of the work can be found in:
 	Ammar Mian , Guillaume Ginolhac , Jean-Philippe Ovarlez , Abdourahmane M. Atto,
 	in Transactions on Signal Processing
 	URL: https://ieeexplore.ieee.org/document/8552453
-	Preprint available at: https://ammarmian.github.io/publication/tsp-2018/
+	Preprint available at: https://ammarmian.github.io/publication/tsp-2019/
 
 If you use any code of the repository, please consider citing the above mentionned reference.
 
@@ -55,7 +55,7 @@ This folder is organised as follows:
 	Ammar Mian , Guillaume Ginolhac , Jean-Philippe Ovarlez , Abdourahmane M. Atto,
 	in Transactions on Signal Processing
 	URL: https://ieeexplore.ieee.org/document/8552453
-	Preprint available at: https://ammarmian.github.io/publication/tsp-2018/
+	Preprint available at: https://ammarmian.github.io/publication/tsp-2019/
 
 ## Files' organisation in Simulation in Matlab folder
  - **ChangeDetection/** contains a code to compute change detection over real dataset UAVSAR. You must specify the good path to the data since there is no
@@ -89,4 +89,3 @@ This folder is organised as follows:
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
-
