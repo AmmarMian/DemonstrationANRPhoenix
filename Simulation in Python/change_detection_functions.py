@@ -117,7 +117,7 @@ def covariance_equality_Wald_gaussian_statistic(𝐗, args=None):
     
     if args is not None:
         if args=='log':
-            return np.real(np.real(L - vec(Q).conj().T @ (np.linalg.inv(O)@vec(Q)))[0,0])
+            return np.log(np.real(L - vec(Q).conj().T @ (np.linalg.inv(O)@vec(Q)))[0,0])
     return np.real(L - vec(Q).conj().T @ (np.linalg.inv(O)@vec(Q)))[0,0]
 
 
